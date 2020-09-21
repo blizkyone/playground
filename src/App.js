@@ -1,39 +1,32 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios'
+import React from 'react';
+import './App.css'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom"
+import LargeDivScroll from './LargeDivScroll'
+import NavBar from './NavBar'
+import Logins from './Logins'
 
 function App() {
-  const [ data, setData ] = useState([])
-
-  const scrollRef = useRef()
-
-  useEffect(() => {
-    const init = async () => {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
-      console.log(res.data)
-      setData(res.data)
-    }
-
-    init()
-  }, [])
-
-  const scroll100 = () => {
-    scrollRef.current.scrollTop = 100
-  }
-  const scroll500 = () => {
-    scrollRef.current.scrollTop = 500
-  }
-  const scroll1000 = () => {
-    scrollRef.current.scrollTop = 1000
-  }
 
   return (
-    <div>
-      <div style={{height: '400px', overflow: 'scroll', background: 'lightblue'}} ref={scrollRef}>
-        {data.map((post, i) => <p key={i}>{post.title}</p>)}
-      </div>
-      <button onClick={scroll100}>Scroll 100</button>
-      <button onClick={scroll500}>Scroll 500</button>
-      <button onClick={scroll1000}>Scroll 1000</button>
+    <div className="app">
+      <Router>
+        <NavBar/>
+        <Switch>
+          <Route exact path="/">
+            Welcome, selecciona algo del navbar
+          </Route>
+          <Route path="/scroll">
+            <LargeDivScroll/>
+          </Route>
+          <Route path="/logins">
+            <Logins/>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
